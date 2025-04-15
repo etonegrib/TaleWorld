@@ -1,6 +1,6 @@
-// src/firebase.js
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
-import { initializeApp } from 'firebase/app';
+import { initializeApp } from 'firebase/app'
+import { getAuth, GoogleAuthProvider } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
 
 // Ваши Firebase настройки
 const firebaseConfig = {
@@ -16,11 +16,6 @@ const firebaseConfig = {
 // Инициализация Firebase
 const app = initializeApp(firebaseConfig);
 
-// Получение экземпляра аутентификации
-const auth = getAuth(app);
-
-// Создание провайдера для Google
-const provider = new GoogleAuthProvider();
-
-// Экспортируем auth и provider
-export { auth, provider };
+export const auth = getAuth(app)
+export const provider = new GoogleAuthProvider()
+export const db = getFirestore(app)

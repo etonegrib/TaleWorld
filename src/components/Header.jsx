@@ -3,19 +3,36 @@ import { useState } from 'react';
 import logo from '/logo-name.svg';
 import { auth, provider } from '../firebase';  // Исправленный импорт
 import { signInWithPopup, signOut } from 'firebase/auth';
+import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { db } from '../firebase'
 
 export default function Header() {
   const [user, setUser] = useState(null);
 
   const handleGoogleLogin = async () => {
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      setUser({ name: user.displayName, email: user.email });
+      const result = await signInWithPopup(auth, provider)
+      const user = result.user
+  
+      setUser({ name: user.displayName, email: user.email })
+  
+      const userRef = doc(db, 'users', user.uid)
+      const snapshot = await getDoc(userRef)
+  
+      if (!snapshot.exists()) {
+        await setDoc(userRef, {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          createdAt: new Date().toISOString()
+        })
+      }
+  
     } catch (err) {
-      console.error("Ошибка входа:", err);
+      console.error("Ошибка входа:", err)
     }
-  };
+  }
+  
 
   const handleLogout = async () => {
     await signOut(auth);
