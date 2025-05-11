@@ -1,8 +1,9 @@
-import { initializeApp } from 'firebase/app'
-import { getAuth, GoogleAuthProvider } from 'firebase/auth'
-import { getFirestore } from 'firebase/firestore'
+// src/firebase.js
+import { initializeApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getDatabase } from "firebase/database";
 
-// Ваши Firebase настройки
 const firebaseConfig = {
   apiKey: "AIzaSyAEuVON-9IAPOwqquS6lEadLlklaAzs_NE",
   authDomain: "skazki-login.firebaseapp.com",
@@ -13,9 +14,9 @@ const firebaseConfig = {
   measurementId: "G-EF7KF02WF8"
 };
 
-// Инициализация Firebase
 const app = initializeApp(firebaseConfig);
 
-export const auth = getAuth(app)
-export const provider = new GoogleAuthProvider()
-export const db = getFirestore(app)
+export const auth = getAuth(app);
+export const provider = new GoogleAuthProvider();
+export const db = getFirestore(app);
+export const database = getDatabase(app);

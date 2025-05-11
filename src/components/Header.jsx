@@ -9,11 +9,13 @@ import { db } from '../firebase';
 export default function Header() {
   const [user, setUser] = useState(null);
 
-  // 🔄 Проверка авторизации при загрузке страницы
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser({ name: user.displayName, email: user.email });
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        setUser({
+          name: firebaseUser.displayName,
+          email: firebaseUser.email,
+        });
       } else {
         setUser(null);
       }
@@ -25,9 +27,12 @@ export default function Header() {
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+      const { user } = result;
 
-      setUser({ name: user.displayName, email: user.email });
+      setUser({
+        name: user.displayName,
+        email: user.email,
+      });
 
       const userRef = doc(db, 'users', user.uid);
       const snapshot = await getDoc(userRef);
@@ -57,7 +62,7 @@ export default function Header() {
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: '10px 20px',
-        backgroundColor: '#c8a2c8', // лавандовый
+        backgroundColor: '#c8a2c8',
         borderBottom: '2px solid #a678a6',
         color: '#fff',
       }}
@@ -80,12 +85,35 @@ export default function Header() {
       {user ? (
         <div>
           <span>👋 Привет, {user.name}!</span>
-          <button onClick={handleLogout} style={{ marginLeft: '10px' }}>
-            Выйти из аккаунта
+          <button
+            onClick={handleLogout}
+            style={{
+              marginLeft: '10px',
+              padding: '6px 12px',
+              backgroundColor: '#a678a6',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer',
+            }}
+          >
+            Выйти
           </button>
         </div>
       ) : (
-        <button onClick={handleGoogleLogin}>Войти через Google</button>
+        <button
+          onClick={handleGoogleLogin}
+          style={{
+            padding: '6px 12px',
+            backgroundColor: '#7a4e7a',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer',
+          }}
+        >
+          Войти через Google
+        </button>
       )}
     </header>
   );

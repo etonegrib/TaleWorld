@@ -1,0 +1,106 @@
+[debug] [2025-05-02T15:17:10.764Z] ----------------------------------------------------------------------
+[debug] [2025-05-02T15:17:10.766Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\6\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-05-02T15:17:10.766Z] CLI Version:   14.2.2
+[debug] [2025-05-02T15:17:10.767Z] Platform:      win32
+[debug] [2025-05-02T15:17:10.767Z] Node Version:  v22.14.0
+[debug] [2025-05-02T15:17:10.767Z] Time:          Fri May 02 2025 18:17:10 GMT+0300 (Москва, стандартное время)
+[debug] [2025-05-02T15:17:10.767Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-05-02T15:17:10.772Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-05-02T15:17:10.772Z] > authorizing via signed-in user (vantirait@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\progekty 2 kurs\obuc\01-react-basic-start
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-05-02T15:19:00.556Z] Checked if tokens are valid: true, expires at: 1746202542931
+[debug] [2025-05-02T15:19:00.556Z] Checked if tokens are valid: true, expires at: 1746202542931
+[debug] [2025-05-02T15:19:00.558Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2025-05-02T15:19:01.282Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-05-02T15:19:01.282Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] i  Using project skazki-login (skazki-login) 
+[info] 
+=== Dataconnect Setup
+[debug] [2025-05-02T15:19:07.159Z] Checked if tokens are valid: true, expires at: 1746202542931
+[debug] [2025-05-02T15:19:07.159Z] Checked if tokens are valid: true, expires at: 1746202542931
+[debug] [2025-05-02T15:19:07.159Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/skazki-login/billingInfo [none]
+[debug] [2025-05-02T15:19:08.470Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/skazki-login/billingInfo 200
+[debug] [2025-05-02T15:19:08.470Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/skazki-login/billingInfo {"name":"projects/skazki-login/billingInfo","projectId":"skazki-login","billingAccountName":"","billingEnabled":false}
+[info] i  dataconnect: ensuring required API sqladmin.googleapis.com is enabled... 
+[debug] [2025-05-02T15:19:08.471Z] Checked if tokens are valid: true, expires at: 1746202542931
+[debug] [2025-05-02T15:19:08.471Z] Checked if tokens are valid: true, expires at: 1746202542931
+[debug] [2025-05-02T15:19:08.471Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/skazki-login/services/sqladmin.googleapis.com [none]
+[debug] [2025-05-02T15:19:08.471Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/skazki-login/services/sqladmin.googleapis.com x-goog-quota-user=projects/skazki-login
+[debug] [2025-05-02T15:19:09.778Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/skazki-login/services/sqladmin.googleapis.com 200
+[debug] [2025-05-02T15:19:09.778Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/skazki-login/services/sqladmin.googleapis.com [omitted]
+[warn] !  dataconnect: missing required API sqladmin.googleapis.com. Enabling now... 
+[debug] [2025-05-02T15:19:09.779Z] Checked if tokens are valid: true, expires at: 1746202542931
+[debug] [2025-05-02T15:19:09.779Z] Checked if tokens are valid: true, expires at: 1746202542931
+[debug] [2025-05-02T15:19:09.779Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/skazki-login/services/sqladmin.googleapis.com:enable [none]
+[debug] [2025-05-02T15:19:09.779Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/skazki-login/services/sqladmin.googleapis.com:enable x-goog-quota-user=projects/skazki-login
+[debug] [2025-05-02T15:19:10.418Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/skazki-login/services/sqladmin.googleapis.com:enable 200
+[debug] [2025-05-02T15:19:10.418Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/skazki-login/services/sqladmin.googleapis.com:enable [omitted]
+[debug] [2025-05-02T15:19:20.419Z] Checked if tokens are valid: true, expires at: 1746202542931
+[debug] [2025-05-02T15:19:20.419Z] Checked if tokens are valid: true, expires at: 1746202542931
+[debug] [2025-05-02T15:19:20.420Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/skazki-login/services/sqladmin.googleapis.com [none]
+[debug] [2025-05-02T15:19:20.420Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/skazki-login/services/sqladmin.googleapis.com x-goog-quota-user=projects/skazki-login
+[debug] [2025-05-02T15:19:21.458Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/skazki-login/services/sqladmin.googleapis.com 200
+[debug] [2025-05-02T15:19:21.458Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/skazki-login/services/sqladmin.googleapis.com [omitted]
+[info] +  dataconnect: required API sqladmin.googleapis.com is enabled 
+[info] +  Wrote dataconnect\dataconnect.yaml 
+[info] +  Wrote dataconnect\schema\schema.gql 
+[info] +  Wrote dataconnect\connector\connector.yaml 
+[info] +  Wrote dataconnect\connector\queries.gql 
+[info] +  Wrote dataconnect\connector\mutations.gql 
+[info] +  Detected WEB app in directory D:\progekty 2 kurs\obuc\01-react-basic-start 
+[debug] [2025-05-02T15:20:20.165Z] ----------------------------------------------------------------------
+[debug] [2025-05-02T15:20:20.167Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\6\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-05-02T15:20:20.168Z] CLI Version:   14.2.2
+[debug] [2025-05-02T15:20:20.168Z] Platform:      win32
+[debug] [2025-05-02T15:20:20.168Z] Node Version:  v22.14.0
+[debug] [2025-05-02T15:20:20.168Z] Time:          Fri May 02 2025 18:20:20 GMT+0300 (Москва, стандартное время)
+[debug] [2025-05-02T15:20:20.168Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-05-02T15:20:20.173Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-05-02T15:20:20.173Z] > authorizing via signed-in user (vantirait@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\progekty 2 kurs\obuc\01-react-basic-start
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-05-02T15:21:29.709Z] Checked if tokens are valid: true, expires at: 1746202542931
+[debug] [2025-05-02T15:21:29.709Z] Checked if tokens are valid: true, expires at: 1746202542931
+[debug] [2025-05-02T15:21:29.710Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2025-05-02T15:21:31.933Z] *** [apiv2] error from fetch(https://firebase.googleapis.com/v1beta1/projects?pageSize=100, {"headers":{},"method":"GET","signal":{}}): FetchError: request to https://firebase.googleapis.com/v1beta1/projects?pageSize=100 failed, reason: read ECONNRESET
+[debug] [2025-05-02T15:21:31.934Z] Failed to make request to https://firebase.googleapis.com/v1beta1/projects?pageSize=100
+[debug] [2025-05-02T15:21:31.937Z] FirebaseError: Failed to make request to https://firebase.googleapis.com/v1beta1/projects?pageSize=100
+    at RetryOperation._fn (C:\Users\6\AppData\Roaming\npm\node_modules\firebase-tools\lib\apiv2.js:261:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[error] 
+[error] Error: Failed to list Firebase projects. See firebase-debug.log for more info.

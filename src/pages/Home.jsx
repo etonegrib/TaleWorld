@@ -1,25 +1,18 @@
-import BossOf from '../components/BossOf'
-import { ways } from '../data'
+// src/pages/Home.jsx
+import { ways } from "../data/ways";
+import BossOf from "../components/BossOf";
 
 export default function Home() {
   return (
-    <section>
-      
-      <h3 style={{
-  fontFamily: "'Dancing Script', cursive",
-  fontSize: '1.8rem',
-  color: '#4a3b4e',
-  letterSpacing: '1px',
-  margin: 0
-}}>
-  Добро пожаловать в Мир сказок!
-</h3>
-
-      <ul style={{ listStyle: 'none', padding: 0 }}>
-        {ways.map((item, index) => (
-          <BossOf key={index} title={item.title} description={item.description} />
-        ))}
-      </ul>
-    </section>
-  )
+    <ul style={{ listStyle: "none", padding: 0 }}>
+      {ways.map((tale) => (
+        <BossOf
+          key={tale.id}
+          id={tale.id}
+          title={tale.title}
+          description={tale.description}
+        />
+      ))}
+    </ul>
+  );
 }
