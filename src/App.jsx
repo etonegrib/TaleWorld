@@ -8,7 +8,8 @@ import TaleWatch from './pages/TaleWatch';
 import CategoryPage from './pages/CategoryPage';
 import About from './pages/About';
 import AuthorDetail from "./pages/AuthorDetail";
-import Authors from "./pages/Authors"; // ✅ Импортируем Authors
+import Authors from "./pages/Authors";
+import NotFound from "./pages/NotFound"; // ✅ Импорт уже есть
 
 export default function App() {
   return (
@@ -24,9 +25,10 @@ export default function App() {
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/tale/:id" element={<TaleWatch />} />
               <Route path="/about" element={<About />} />
-              <Route path="/authors" element={<Authors />} />  {/* ✅ Новый маршрут */}
+              <Route path="/authors" element={<Authors />} />
               <Route path="/authors/:id" element={<AuthorDetail />} />
               <Route path="/category/:tag" element={<CategoryPage />} />
+              <Route path="*" element={<NotFound />} /> {/* ✅ ВАЖНО: последний маршрут */}
             </Routes>
           </main>
         </div>

@@ -44,9 +44,9 @@ export default function About() {
           • Кэширование избранного для быстрой загрузки
           <br /><br />
           👤 <strong>Разработчик:</strong><br />
-          Иван Иванов<br />
-          📧 Почта: <a href="mailto:example@email.com" style={{ color: "#4b2e83" }}>example@email.com</a><br />
-          💼 GitHub: <a href="https://github.com/yourusername" target="_blank" rel="noreferrer" style={{ color: "#4b2e83" }}>yourusername</a>
+          Мартынюк Владимир<br />
+          📧 Почта: <a href="mailto:vantirait@gmail.com" style={{ color: "#4b2e83" }}>Нажмите сюда!</a><br />
+          💼 GitHub: <a href="https://github.com/wollmad" target="_blank" rel="noreferrer" style={{ color: "#4b2e83" }}>wollmad</a>
           <br /><br />
           Спасибо, что заглянули. Пусть сказка всегда будет с вами! 📚✨
         </p>
