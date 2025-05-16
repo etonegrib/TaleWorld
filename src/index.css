@@ -8,8 +8,11 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #fdf6e3; /* Кремово-бежевый */
-  color: #333; /* Чёрный текст для контраста */
+  background: 
+    linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
+    url('forest.png') no-repeat center center fixed;
+  background-size: cover;
+  color: #333;
 }
 
 header {
@@ -43,7 +46,7 @@ header button:hover {
 
 header img {
   height: 60px;
-  filter: brightness(0); /* делает его белым на тёмном фоне, если чёрный SVG */
+  filter: brightness(0); /* делает изображение белым, если это черный SVG */
 }
 
 .boss-of {
@@ -84,7 +87,6 @@ h3 {
   font-family: 'Titillium Web', sans-serif;
   font-size: 1.8rem;
 }
-
 
 section ul {
   list-style: none;

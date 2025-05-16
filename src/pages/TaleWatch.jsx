@@ -2,14 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ways } from "../data/ways";
 import { db, auth } from "../firebase";
-import {
-  doc,
-  setDoc,
-  deleteDoc,
-  getDoc,
-  getDocs,
-  collection
-} from "firebase/firestore";
+import { doc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function TaleWatch() {
@@ -19,63 +12,80 @@ export default function TaleWatch() {
   const [user] = useAuthState(auth);
   const [isFavorite, setIsFavorite] = useState(false);
   const [loadingText, setLoadingText] = useState(true);
-  const [cacheLoaded, setCacheLoaded] = useState(false);
+  const [favoritesLoaded, setFavoritesLoaded] = useState(false);
 
   const cacheKey = user ? `favorites_${user.uid}` : null;
 
-  // Загружаем текст
+  // 1. Загрузка текста сказки
   useEffect(() => {
     const loadText = async () => {
-      if (tale) {
-        try {
-          const res = await fetch(tale.filePath);
-          const data = await res.text();
-          setText(data);
-        } catch (err) {
-          console.error("Ошибка загрузки текста:", err);
-        } finally {
-          setLoadingText(false);
-        }
+      if (!tale) return;
+      try {
+        const res = await fetch(tale.filePath);
+        const data = await res.text();
+        setText(data);
+      } catch (err) {
+        console.error("Ошибка при загрузке текста:", err);
+      } finally {
+        setLoadingText(false);
       }
     };
     loadText();
   }, [tale]);
 
-  // Синхронизируем кэш избранного с Firestore
+  // 2. Быстрая проверка избранного через localStorage
   useEffect(() => {
-    const syncFavoritesFromFirestore = async () => {
-      if (!user || !tale) return;
+    if (!user || !tale || !cacheKey) return;
 
-      const cacheKey = `favorites_${user.uid}`;
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+      const favorites = JSON.parse(cached);
+      const isFav = favorites.some((f) => f.id === tale.id);
+      setIsFavorite(isFav);
+    }
+  }, [user, tale, cacheKey]);
+
+  // 3. Синхронизация с Firestore в фоне
+  useEffect(() => {
+    let isMounted = true;
+    if (!user || !tale || !cacheKey || favoritesLoaded) return;
+
+    const syncWithFirestore = async () => {
       try {
-        // Загружаем все избранные из Firestore
-        const favCollection = collection(db, "users", user.uid, "favorites");
-        const snapshot = await getDocs(favCollection);
-        const allFavorites = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data()
-        }));
+        const favRef = doc(db, "users", user.uid, "favorites", tale.id);
+        const favSnap = await getDoc(favRef);
 
-        localStorage.setItem(cacheKey, JSON.stringify(allFavorites));
-        const exists = allFavorites.some((f) => f.id === tale.id);
-        setIsFavorite(exists);
-        setCacheLoaded(true);
+        if (!isMounted) return;
+
+        if (favSnap.exists()) {
+          setIsFavorite(true);
+
+          // обновим localStorage если не хватает
+          const cached = localStorage.getItem(cacheKey);
+          const favorites = cached ? JSON.parse(cached) : [];
+          const already = favorites.some((f) => f.id === tale.id);
+
+          if (!already) {
+            const updated = [...favorites, favSnap.data()];
+            localStorage.setItem(cacheKey, JSON.stringify(updated));
+          }
+        } else {
+          setIsFavorite(false);
+        }
+
+        setFavoritesLoaded(true);
       } catch (err) {
-        console.error("Ошибка синхронизации избранного:", err);
+        console.error("Ошибка при синхронизации избранного:", err);
       }
     };
 
-    if (user && tale) {
-      syncFavoritesFromFirestore();
-    }
+    syncWithFirestore();
+    return () => {
+      isMounted = false;
+    };
+  }, [user, tale, cacheKey, favoritesLoaded]);
 
-    // При выходе — сбрасываем кэш
-    if (!user && cacheKey) {
-      localStorage.removeItem(cacheKey);
-      setIsFavorite(false);
-    }
-  }, [user, tale]);
-
+  // 4. Переключение избранного
   const toggleFavorite = async () => {
     if (!user || !tale || !cacheKey) return;
 
@@ -83,31 +93,26 @@ export default function TaleWatch() {
     const cached = localStorage.getItem(cacheKey);
     const favorites = cached ? JSON.parse(cached) : [];
 
-    const newFavorites = isFavorite
-      ? favorites.filter((f) => f.id !== tale.id)
-      : [...favorites, {
-          id: tale.id,
-          title: tale.title,
-          description: tale.description || "",
-          createdAt: new Date().toISOString()
-        }];
-
-    localStorage.setItem(cacheKey, JSON.stringify(newFavorites));
-    setIsFavorite(!isFavorite);
-
-    // Обновляем Firestore в фоне
     try {
       if (isFavorite) {
         await deleteDoc(favRef);
+        const updated = favorites.filter((f) => f.id !== tale.id);
+        localStorage.setItem(cacheKey, JSON.stringify(updated));
+        setIsFavorite(false);
       } else {
-        await setDoc(favRef, {
+        const newFav = {
+          id: tale.id,
           title: tale.title,
           description: tale.description || "",
-          createdAt: new Date().toISOString()
-        });
+          createdAt: new Date().toISOString(),
+        };
+        await setDoc(favRef, newFav);
+        const updated = [...favorites, newFav];
+        localStorage.setItem(cacheKey, JSON.stringify(updated));
+        setIsFavorite(true);
       }
     } catch (err) {
-      console.error("Ошибка обновления Firestore избранного:", err);
+      console.error("Ошибка при изменении избранного:", err);
     }
   };
 
@@ -131,7 +136,7 @@ export default function TaleWatch() {
         fontFamily: "'Great Vibes', cursive",
         color: "#4b2e2e",
         maxWidth: "800px",
-        margin: "2rem auto"
+        margin: "2rem auto",
       }}
     >
       <h1
@@ -139,19 +144,13 @@ export default function TaleWatch() {
           fontFamily: "'UnifrakturCook', cursive",
           fontSize: "2.5rem",
           textAlign: "center",
-          marginBottom: "1rem"
+          marginBottom: "1rem",
         }}
       >
         📖 {tale.title}
       </h1>
 
-      <p
-        style={{
-          textAlign: "center",
-          fontSize: "2rem",
-          marginBottom: "2rem"
-        }}
-      >
+      <p style={{ textAlign: "center", fontSize: "2rem", marginBottom: "2rem" }}>
         ⏱ Примерное время чтения: {readingTime} мин
       </p>
 
@@ -165,7 +164,7 @@ export default function TaleWatch() {
               backgroundColor: "#fdf1d3",
               borderRadius: "8px",
               border: "1px solid #dab57f",
-              fontSize: "0.9rem"
+              fontSize: "0.9rem",
             }}
           >
             #{tag}
@@ -173,7 +172,7 @@ export default function TaleWatch() {
         ))}
       </div>
 
-      {user && cacheLoaded && (
+      {user && (
         <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
           <button
             onClick={toggleFavorite}
@@ -183,7 +182,7 @@ export default function TaleWatch() {
               padding: "10px 20px",
               borderRadius: "12px",
               cursor: "pointer",
-              fontSize: "1.2rem"
+              fontSize: "1.2rem",
             }}
           >
             {isFavorite ? "⭐ Убрать из избранного" : "☆ Добавить в избранное"}
@@ -201,7 +200,7 @@ export default function TaleWatch() {
           textAlign: "justify",
           backgroundColor: "rgba(255,255,255,0.7)",
           padding: "1rem",
-          borderRadius: "12px"
+          borderRadius: "12px",
         }}
       >
         {loadingText ? "Загрузка сказки..." : text}
