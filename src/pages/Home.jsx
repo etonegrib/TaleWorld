@@ -12,7 +12,6 @@ export default function Home() {
 
   const sortTales = (criteria) => {
     const likesData = JSON.parse(localStorage.getItem("likes") || "{}");
-
     const sorted = [...ways].sort((a, b) => {
       if (criteria === "title") {
         return a.title.localeCompare(b.title, "ru");
@@ -32,140 +31,169 @@ export default function Home() {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: "1000px",
-        margin: "2rem auto",
-        padding: "2rem",
-        fontFamily: "'UnifrakturCook', cursive",
-        background: "url('/parchment-bg.jpg') repeat",
-        borderRadius: "16px",
-        boxShadow: "0 8px 20px rgba(0,0,0,0.25)",
-        color: "#4b2e2e",
-        minHeight: "90vh",
-        display: "flex",
-        flexDirection: "column",
-        gap: "2rem",
-      }}
-    >
-      {/* Приветствие с анимацией */}
-      <section
-        style={{
-          textAlign: "center",
-          background: "linear-gradient(135deg, #e6e6fa 0%, #d8bfd8 100%)",
-          padding: "2rem 3rem",
-          borderRadius: "16px",
-          boxShadow: "0 4px 12px rgba(102, 51, 153, 0.3)",
-          color: "#4b2e2e",
-          animation: "fadeInDown 1s ease forwards",
-          opacity: 0,
-        }}
-        className="welcome-block"
-      >
-        <h1
-          style={{
-            fontSize: "3.5rem",
-            marginBottom: "0.3rem",
-            textShadow: "2px 2px 4px #a88fc7",
-          }}
-        >
-          Добро пожаловать в TaleWorld! 🧙‍♂️✨
-        </h1>
-        <p
-          style={{
-            fontSize: "1.6rem",
-            maxWidth: "700px",
-            margin: "0 auto",
-            lineHeight: "1.6",
-            fontFamily: "'Great Vibes', cursive",
-            color: "#5b3e5f",
-          }}
-        >
-          Погрузитесь в волшебный мир сказок и легенд. Здесь вы найдёте лучшие истории,
-          отсортированные по популярности и алфавиту, сможете ставить лайки и сохранять
-          любимые сказки в избранное.
+    <div className="home-container">
+      {/* Приветствие */}
+      <section className="welcome-block">
+        <h1>Добро пожаловать в TaleWorld! 🧙‍♂️✨</h1>
+        <p>
+          Погрузитесь в волшебный мир сказок и легенд. Здесь вы найдёте лучшие
+          истории, отсортированные по популярности и алфавиту, сможете ставить лайки
+          и сохранять любимые сказки в избранное.
         </p>
       </section>
 
-      {/* Секция сортировки */}
-      <section
-        style={{
-          textAlign: "center",
-          backgroundColor: "rgba(253, 241, 211, 0.9)",
-          padding: "1rem 1.5rem",
-          borderRadius: "12px",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-        }}
-      >
-        <label
-          htmlFor="sort"
-          style={{ marginRight: "0.8rem", fontSize: "1.3rem", fontWeight: "600" }}
-        >
-          🧭 Сортировать сказки:
-        </label>
-        <select
-          id="sort"
-          value={sortBy}
-          onChange={handleSortChange}
-          style={{
-            padding: "10px 18px",
-            borderRadius: "12px",
-            border: "2px solid #d8b0d8",
-            backgroundColor: "#fff",
-            fontSize: "1.1rem",
-            fontFamily: "'Great Vibes', cursive",
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-            minWidth: "180px",
-          }}
-          onMouseEnter={(e) => (e.target.style.boxShadow = "0 0 8px #d8b0d8")}
-          onMouseLeave={(e) => (e.target.style.boxShadow = "none")}
-        >
+      {/* Сортировка */}
+      <section className="sort-section">
+        <label htmlFor="sort">🧭 Сортировать сказки:</label>
+        <select id="sort" value={sortBy} onChange={handleSortChange}>
           <option value="likes">💖 По популярности</option>
           <option value="title">🔠 По названию</option>
         </select>
       </section>
 
       {/* Список сказок */}
-      <ul
-        style={{
-          listStyle: "none",
-          padding: 0,
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-          gap: "1.8rem",
-        }}
-      >
+      <ul className="tale-list">
         {sortedWays.map((tale, index) => (
-          <li
-            key={tale.id}
-            style={{
-              animation: `fadeInUp 0.5s ease ${index * 0.1}s forwards`,
-              opacity: 0,
-            }}
-          >
+          <li key={tale.id} style={{ animationDelay: `${index * 0.1}s` }}>
             <BossOf id={tale.id} title={tale.title} description={tale.description} />
           </li>
         ))}
       </ul>
 
-      {/* Анимации */}
-      <style>
-        {`
-          @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+      {/* Анимации и стили */}
+      <style>{`
+        .home-container {
+          max-width: 1000px;
+          margin: 2rem auto;
+          padding: 2rem;
+          font-family: 'UnifrakturCook', cursive;
+          background: url('/parchment-bg.jpg') repeat;
+          border-radius: 16px;
+          box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+          color: #4b2e2e;
+          min-height: 90vh;
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+        }
+
+        .welcome-block {
+          text-align: center;
+          background: linear-gradient(135deg, #e6e6fa 0%, #d8bfd8 100%);
+          padding: 2rem 3rem;
+          border-radius: 16px;
+          box-shadow: 0 4px 12px rgba(102, 51, 153, 0.3);
+          color: #4b2e2e;
+          animation: fadeInDown 1s ease forwards;
+          opacity: 0;
+        }
+
+        .welcome-block h1 {
+          font-size: 3rem;
+          margin-bottom: 0.5rem;
+          text-shadow: 2px 2px 4px #a88fc7;
+        }
+
+        .welcome-block p {
+          font-size: 1.2rem;
+          line-height: 1.6;
+          max-width: 700px;
+          margin: 0 auto;
+          font-family: 'Great Vibes', cursive;
+          color: #5b3e5f;
+        }
+
+        .sort-section {
+          text-align: center;
+          background-color: rgba(253, 241, 211, 0.9);
+          padding: 1rem 1.5rem;
+          border-radius: 12px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .sort-section label {
+          font-size: 1.2rem;
+          font-weight: 600;
+          margin-right: 0.6rem;
+        }
+
+        .sort-section select {
+          padding: 10px 16px;
+          border-radius: 12px;
+          border: 2px solid #d8b0d8;
+          background-color: #fff;
+          font-size: 1.1rem;
+          font-family: 'Great Vibes', cursive;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          min-width: 160px;
+        }
+
+        .sort-section select:hover {
+          box-shadow: 0 0 8px #d8b0d8;
+        }
+
+        .tale-list {
+          list-style: none;
+          padding: 0;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 1.5rem;
+        }
+
+        .tale-list li {
+          animation: fadeInUp 0.5s ease forwards;
+          opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+          from { opacity: 0; transform: translateY(-20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== Адаптивность ===== */
+        @media (max-width: 768px) {
+          .home-container {
+            padding: 1rem;
           }
-          @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+
+          .welcome-block h1 {
+            font-size: 2rem;
           }
+
+          .welcome-block p {
+            font-size: 1rem;
+          }
+
+          .sort-section label {
+            display: block;
+            margin-bottom: 0.5rem;
+          }
+
+          .sort-section select {
+            width: 100%;
+          }
+        }
+
+        @media (max-width: 480px) {
           .welcome-block {
-            opacity: 0;
-            animation-fill-mode: forwards;
+            padding: 1.5rem 1rem;
           }
-        `}
-      </style>
+
+          .welcome-block h1 {
+            font-size: 1.8rem;
+          }
+
+          .tale-list {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
     </div>
   );
 }
